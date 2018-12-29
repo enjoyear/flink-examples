@@ -1,0 +1,7 @@
+4,Washington
+1,California
+7,Nevada
+3,Illinois
+2,New York
+5,Florida
+6,Arizona
