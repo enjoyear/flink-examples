@@ -8,7 +8,7 @@ import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 
-public class ReduceOperation {
+public class StreamReduceOperation {
   public static void main(String[] args) throws Exception {
     StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
     ParameterTool params = ParameterTool.fromArgs(args);
@@ -23,6 +23,17 @@ public class ReduceOperation {
         .keyBy(0)
         //Rolling reduce
         .reduce(new Reduce1());
+    /**
+     * Notes:
+     * 1. min v.s. minBy or max v.s. maxBy
+     *  min and max don't care about other fields other than the aggregated fields,
+     *  thus would potential given wrong mappings for the min/max value.
+     *
+     *  use minBy and maxBy if you want other fields.
+     *
+     * 2. Provide field name string if the input type is a class.
+     */
+
 
     //month, avg profit
     DataStream<Tuple2<String, Double>> profitPerMonth = reduced.map(new MapFunction<Tuple5<String, String, String, Integer, Integer>, Tuple2<String, Double>>() {
@@ -48,6 +59,8 @@ public class ReduceOperation {
 
   public static class Reduce1 implements ReduceFunction<Tuple5<String, String, String, Integer, Integer>> {
     //The input and output must be the same type
+    //TODO: Change to FoldFunction(Deprecated, use AggregateFunction) if you want different
+    //input and output types for aggregation
     @Override
     public Tuple5<String, String, String, Integer, Integer> reduce(
         Tuple5<String, String, String, Integer, Integer> current,
