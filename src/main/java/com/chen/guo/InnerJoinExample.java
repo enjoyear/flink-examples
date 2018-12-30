@@ -31,6 +31,15 @@ public class InnerJoinExample {
           }
         });
 
+    /**
+     * Available join hints
+     * JoinOperatorBase.JoinHint.OPTIMIZER_CHOOSES
+     * JoinOperatorBase.JoinHint.BROADCAST_HASH_FIRST
+     * JoinOperatorBase.JoinHint.BROADCAST_HASH_SECOND
+     * JoinOperatorBase.JoinHint.REPARTITION_HASH_FIRST
+     * JoinOperatorBase.JoinHint.REPARTITION_HASH_SECOND
+     * JoinOperatorBase.JoinHint.REPARTITION_SORT_MERGE
+     */
     DataSet<Tuple3<Integer, String, String>> joined = personSet.join(locationSet).where(0).equalTo(0)
         .with(new JoinFunction<Tuple2<Integer, String>, Tuple2<Integer, String>, Tuple3<Integer, String, String>>() {
           @Override
