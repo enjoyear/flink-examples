@@ -19,12 +19,18 @@ public class DataServer {
       try {
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
         Random rand = new Random();
+        int count = 0;
         while (true) {
+          count++;
           int i = rand.nextInt(10);
           String s = System.currentTimeMillis() + "," + i;
           System.out.println(s);
           out.println(s); //out.print() will screw you up !!!
-          Thread.sleep(500);
+          if (count % 10 == 0) {
+            Thread.sleep(5000); //sleep longer to test the session window
+          } else {
+            Thread.sleep(500);
+          }
         }
       } finally {
         socket.close();

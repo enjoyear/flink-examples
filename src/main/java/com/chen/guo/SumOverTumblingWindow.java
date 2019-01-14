@@ -39,7 +39,17 @@ public class SumOverTumblingWindow {
           public long extractAscendingTimestamp(Tuple2<Long, Integer> element) {
             return element.f0;
           }
-        }).windowAll(TumblingEventTimeWindows.of(Time.seconds(3)))
+        }).windowAll(
+            /**
+             * For a sliding window of length 3s and sliding 1s each time
+             * SlidingProcessingTimeWindows.of(Time.seconds(3), Time.seconds(1))
+             *
+             * For a session window separated by a fixed gap 3s
+             * ProcessingTimeSessionWindows.withGap(Time.seconds(3))
+             */
+            TumblingEventTimeWindows.of(Time.seconds(3)))
+
+
         .reduce(new Reduce1());
 
     sum.print();
