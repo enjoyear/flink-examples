@@ -33,7 +33,12 @@ public class SumOverTumblingWindow {
 
     //Timestamp, rand
     DataStream<Tuple2<Long, Integer>> sum = text.map(new Splitter())
-        //Defines which field is for the event time
+        /**
+         * Defines which field is for the event time, which is needed for EventTimeTrigger
+         *
+         * WindowAssigner with name "Event" will provide default EventTimeTrigger.create()
+         * WindowAssigner with name "Processing" will provide default ProcessingTimeTrigger.create()
+         */
         .assignTimestampsAndWatermarks(new AscendingTimestampExtractor<Tuple2<Long, Integer>>() {
           @Override
           public long extractAscendingTimestamp(Tuple2<Long, Integer> element) {
