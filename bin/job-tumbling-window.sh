@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-FILES_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && cd .. && cd files && pwd )"
+FILES_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )"  && cd .. && cd files && pwd )"
 
 ## Create input stream by running DataServer class
 
